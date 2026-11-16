@@ -140,6 +140,24 @@ describe("code host", () => {
   });
 });
 
+describe("kita host", () => {
+  test("kita.alxjrvs.com serves its one page and sends anything else back to it", () => {
+    expect(route("https://kita.alxjrvs.com/")).toEqual({ kind: "kita" });
+    expect(route("https://kita.alxjrvs.com/?utm_source=x")).toEqual({ kind: "kita" });
+    for (const url of [
+      "http://kita.alxjrvs.com/",
+      "https://kita.alxjrvs.com/writing/",
+      "https://kita.alxjrvs.com/_emdash/admin/",
+    ]) {
+      expect(route(url)).toEqual({
+        kind: "redirect",
+        location: "https://kita.alxjrvs.com/",
+        status: 302,
+      });
+    }
+  });
+});
+
 describe("helpers", () => {
   test("normalisePath survives bad escapes", () => {
     expect(normalisePath("/%E0%A4%A")).toBe("/%E0%A4%A");

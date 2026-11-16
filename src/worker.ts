@@ -21,6 +21,7 @@
 import { WorkerEntrypoint } from "cloudflare:workers";
 import handler, { createScheduledHandler, PluginBridge } from "@emdash-cms/cloudflare/worker";
 import { ADMIN_HOST, HSTS, MEDIA_CACHE, route, SECURITY_HEADERS, terminalHello } from "./gateway";
+import { KITA_HTML } from "./kita";
 
 export { PluginBridge };
 
@@ -61,6 +62,18 @@ const fetch = async (request: Request, env: unknown, ctx: GatewayContext): Promi
       return ctx.exports.Site.fetch(request);
     case "redirect":
       return Response.redirect(r.location, r.status);
+    case "kita":
+      // A page about a private person, so it stays out of search. It never
+      // goes near Workers Cache, which keys on the path, and "/" is the home page.
+      return new Response(KITA_HTML, {
+        headers: {
+          ...SECURITY_HEADERS,
+          "Content-Type": "text/html; charset=utf-8",
+          "Cache-Control": "public, max-age=300",
+          "Strict-Transport-Security": HSTS,
+          "X-Robots-Tag": "noindex, nofollow",
+        },
+      });
     case "not-found":
       return new Response("Not found", {
         status: 404,
