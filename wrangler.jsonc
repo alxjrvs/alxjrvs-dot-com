@@ -58,7 +58,9 @@
   "routes": [
     { "pattern": "alxjrvs.com/*", "zone_name": "alxjrvs.com" },
     { "pattern": "admin.alxjrvs.com", "custom_domain": true },
-    { "pattern": "code.alxjrvs.com", "custom_domain": true }
+    { "pattern": "code.alxjrvs.com", "custom_domain": true },
+    // kita.alxjrvs.com: one joke page for a friend (src/kita.ts).
+    { "pattern": "kita.alxjrvs.com", "custom_domain": true }
   ],
   // The workers.dev copy stays on so a deploy can be checked before (and
   // without) the custom domain. It's noindexed in public/_headers.

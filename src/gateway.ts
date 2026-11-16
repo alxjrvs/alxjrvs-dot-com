@@ -20,6 +20,8 @@ export const ADMIN_HOST = "admin.alxjrvs.com";
 /** code.alxjrvs.com is a short, printable link to GitHub (it's on the business cards). */
 export const CODE_HOST = "code.alxjrvs.com";
 export const CODE_TARGET = "https://github.com/alxjrvs";
+/** kita.alxjrvs.com is one joke page for a friend (src/kita.ts), made in a Taco Bell line. */
+export const KITA_HOST = "kita.alxjrvs.com";
 export const MEDIA_PREFIX = "/_emdash/api/media/file/";
 /** The widths `/_image` will make on the public site (the comic's srcset). */
 export const IMAGE_WIDTHS = [480, 640, 960, 1280, 1600];
@@ -55,7 +57,9 @@ export type Route =
       /** alxjrvs.com over https, where HSTS belongs */
       hsts: boolean;
     }
-  | { kind: "dev" };
+  | { kind: "dev" }
+  /** kita.alxjrvs.com's one page (src/kita.ts) */
+  | { kind: "kita" };
 
 /** The path as the router should judge it: decoded, with runs of `/` collapsed. */
 export function normalisePath(pathname: string): string {
@@ -112,6 +116,15 @@ export function route(rawUrl: string): Route {
       location: path === "/" ? CODE_TARGET : `${CODE_TARGET}${path}`,
       status: 302,
     };
+  }
+  if (host === KITA_HOST) {
+    // One page. Static assets (the fonts, the favicon) are answered before
+    // the Worker runs, so anything that reaches here is either the page or a
+    // wrong guess, which goes back to it.
+    if (url.protocol === "http:" || normalisePath(url.pathname) !== "/") {
+      return { kind: "redirect", location: `https://${KITA_HOST}/`, status: 302 };
+    }
+    return { kind: "kita" };
   }
   if (host === "localhost" || host === "127.0.0.1") return { kind: "dev" };
 
