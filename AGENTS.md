@@ -7,7 +7,7 @@ through `CLAUDE.md`. Edit this file, never the shim.
 
 Alex Jarvis's personal site: Astro on one Cloudflare Worker, with the EmDash
 CMS inside it. It is first for people who might hire or work with Alex. It
-shows exactly four projects and a small Writing section (pieces, threads,
+shows exactly five projects and a small Writing section (pieces, threads,
 comics). `README.md` explains the structure and how to edit text; `DESIGN.md`
 is the law for how it looks, moves and reads. Read the section of `DESIGN.md`
 you are about to touch, and change it in the same PR when the site changes.
@@ -63,7 +63,7 @@ The owner or a review has said no to each of these.
 - An on-site dice roller (randsum.dev has one), playable cards, a guestbook,
   sound.
 - Light mode or a theme toggle. A rare die glyph. Per-roll share images.
-- Project detail pages, or any project beyond the four.
+- Project detail pages, or any project beyond the five.
 - Abrupt or hijacked scroll snapping. A global `scroll-padding-top`.
 - A strict `style-src` CSP (cards set `--accent` inline).
 - Publishing social profiles. Contact is one email address, written so bots
