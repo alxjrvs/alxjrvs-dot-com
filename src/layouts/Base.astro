@@ -83,7 +83,7 @@ const v = __BUILD_ID__;
     {/* a piece's title and its Back/Next, once the title has docked (client/title.ts) */}
     <slot name="bar" />
     <nav class="nav" aria-label="Primary">
-      {nav.map((item) => <a href={isHome || item.url !== section ? item.url : "/writing/"} aria-current={item.url === section ? "page" : undefined}>{item.name}</a>)}
+      {nav.map((item) => <a href={isHome || item.url !== section ? item.url : "/writing/"} data-section={item.section} aria-current={item.url === section ? "page" : undefined}>{item.name}</a>)}
       <Die class="die-bar" label={isHome ? undefined : "Roll the die: new tagline"} />
     </nav>
     {progress && <span class="read-progress" id="read-progress" aria-hidden="true"></span>}

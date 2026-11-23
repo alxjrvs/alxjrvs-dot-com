@@ -448,7 +448,10 @@ h3 { font-size: clamp(1.75rem, 3.6vw, 2.25rem); line-height: 1.05; letter-spacin
 .die-btn:hover .die, .die-btn:focus-visible .die { transform: scale(1.12); }
 
 /* projects */
-#projects h2 { margin-bottom: clamp(24px, 4vh, 40px); }
+#projects h2, #campaigns h2 { margin-bottom: clamp(24px, 4vh, 40px); }
+/* Campaigns (from Kith.town) are the same carousel; their art is a
+   painting, not a page, so it's framed on its middle rather than its top. */
+.campaign .shot img { object-position: center; }
 /* The projects are a sideways carousel at every width: one project at a
    time, each swipe or arrow press moves exactly one and snaps to it, and it
    loops (see carousel.ts). On wider screens a slide is the screenshot on the
@@ -979,6 +982,11 @@ h3 { font-size: clamp(1.75rem, 3.6vw, 2.25rem); line-height: 1.05; letter-spacin
   .brand { font-size: 24px; }
   .nav { font-size: .9375rem; }
 }
+/* under 370px four links don't fit beside the wordmark: Campaigns, which
+   only leads away to Kith.town, steps out (its section is still on the page) */
+@media (max-width: 370px) {
+  .nav a[data-section="campaigns"] { display: none; }
+}
 /* the smallest phones (320px): tighten the header so the wordmark and the
    nav don't collide */
 @media (max-width: 360px) {
@@ -994,7 +1002,7 @@ h3 { font-size: clamp(1.75rem, 3.6vw, 2.25rem); line-height: 1.05; letter-spacin
   .screen { padding-top: calc(var(--bar-h) + 20px); padding-bottom: 20px; }
   .inner main { padding-top: calc(var(--bar-h) + 40px); }
   h2 { font-size: 2.25rem; }
-  #projects h2 { margin-bottom: 18px; }
+  #projects h2, #campaigns h2 { margin-bottom: 18px; }
   .cards { grid-auto-columns: 84%; gap: 16px; }
   .card { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
   .card-body { gap: 10px; }

@@ -35,11 +35,13 @@
 })();
 
 // Header links follow the scroll: the link for the section you're in is
-// marked current (aria-current), which brightens and underlines it.
+// marked current (aria-current), which brightens and underlines it. Each
+// link names its section (Campaigns links out to Kith.town, but its section
+// is here all the same).
 (() => {
-  const links = Array.from(document.querySelectorAll<HTMLAnchorElement>('.nav a[href*="#"]'));
+  const links = Array.from(document.querySelectorAll<HTMLAnchorElement>(".nav a[data-section]"));
   const pairs = links
-    .map((a) => ({ a, s: document.getElementById(a.hash.slice(1)) }))
+    .map((a) => ({ a, s: document.getElementById(a.dataset.section ?? "") }))
     .filter((p): p is { a: HTMLAnchorElement; s: HTMLElement } => p.s !== null);
   if (!pairs.length) return;
   let queued = false;

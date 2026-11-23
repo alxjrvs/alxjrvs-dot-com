@@ -9,10 +9,12 @@ import InlineScript from "../components/InlineScript.astro";
 import PostList from "../components/PostList.astro";
 import Prose from "../components/Prose.astro";
 import Base from "../layouts/Base.astro";
+import { env } from "cloudflare:workers";
 import { site } from "../site";
+import { fetchCampaigns, type Campaign } from "../lib/kith";
 import { getFrontPage, getPlaces, getProjects, getRolls, getSection } from "../lib/content";
 
-const [projects, posts, rolls, projectsHead, writingHead, about, places] = await Promise.all([
+const [projects, posts, rolls, projectsHead, writingHead, about, places, campaignsHead, campaigns] = await Promise.all([
   getProjects(Astro),
   // every piece, where a new reader can start listed first
   getFrontPage(Astro),
@@ -21,7 +23,15 @@ const [projects, posts, rolls, projectsHead, writingHead, about, places] = await
   getSection(Astro, "writing"),
   getSection(Astro, "about"),
   getPlaces(Astro),
+  getSection(Astro, "campaigns"),
+  // the tables on Kith.town: running, or signing up (src/lib/kith.ts)
+  fetchCampaigns(env.KITH as Parameters<typeof fetchCampaigns>[0]),
 ]);
+// "Signing up", or when it next plays: "Next game Nov 27"
+const day = (d: Date) => d.toLocaleDateString("en-US", { timeZone: site.timezone, month: "short", day: "numeric" });
+// the cards wear Kith.town's colour, from its project card
+const kithAccent = projects.find((p) => p.link.startsWith("https://kith.town"))?.accent_dark ?? "currentColor";
+const status = (c: Campaign) => (c.open ? "Signing up" : c.next ? `Next game ${day(c.next)}` : "Running");
 const { subjects, objects, lead, likes, likesLead } = rolls;
 // the projects, for search engines: an ItemList on the profile page
 const ld = {
@@ -66,6 +76,33 @@ const ld = {
   <button class="hold" type="button" aria-pressed="false" aria-controls="cards" aria-label="Hold the slideshow" title="Hold the slideshow" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 7v10M15 7v10"/></svg></button>
   </div>
 </section>
+
+{/* Campaigns: the tables running or signing up on Kith.town. Only there
+    once its section is written in EmDash and Kith has something to show. */}
+{campaignsHead && campaigns.length > 0 && (
+  <section class="screen wrap" id="campaigns" aria-labelledby="campaigns-head" aria-roledescription="carousel">
+    <h2 id="campaigns-head">{campaignsHead.title}</h2>
+    <div class="carousel">
+    <div class="cards" id="campaign-cards">
+      {campaigns.map((c, i) => (
+        <article class="card campaign" style={`--accent:${kithAccent}`} aria-roledescription="slide" aria-label={`${i + 1} of ${campaigns.length}: ${c.name}`}>
+          {c.image && <a class="shot" href={c.url} tabindex="-1" aria-hidden="true"><img src={c.image} alt="" width="1200" height="630" loading="lazy" fetchpriority="low" decoding="async"></a>}
+          <div class="card-body">
+            <h3>{c.name}</h3>
+            {c.tagline && <p class="summary">{c.tagline}</p>}
+            <p class="built label">{[c.system, status(c)].filter(Boolean).join(" · ")}</p>
+            <p class="card-links">
+              <a class="visit" href={c.url}>{campaignsHead.dek ?? "Visit"} <span aria-hidden="true">↗</span></a>
+            </p>
+          </div>
+        </article>
+      ))}
+    </div>
+    {campaigns.length > 1 && <button class="nudge next" type="button" aria-label="Next campaign" aria-controls="campaign-cards"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 6l6 6-6 6"/></svg></button>}
+    {campaigns.length > 1 && <button class="hold" type="button" aria-pressed="false" aria-controls="campaign-cards" aria-label="Hold the slideshow" title="Hold the slideshow" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 7v10M15 7v10"/></svg></button>}
+    </div>
+  </section>
+)}
 
 {/* Writing only exists on the page (and in the nav) once there's some. */}
 {posts.length > 0 && (
