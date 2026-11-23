@@ -24,6 +24,8 @@ export interface Campaign {
   /** "Daggerheart" */
   system?: string | undefined;
   tagline?: string | undefined;
+  /** its pitch, as one plain paragraph */
+  description?: string | undefined;
   /** its page on kith.town */
   url: string;
   /** its art, 1200x630 */
@@ -62,6 +64,7 @@ export function parseCampaigns(json: unknown): Campaign[] {
       open: c.state === "FORMING",
       system: text(c.system),
       tagline: text(c.tagline),
+      description: text(c.description),
       url: onKith(c.url) ?? KITH,
       image: https(c.imageUrl),
       next:

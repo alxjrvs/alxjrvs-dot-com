@@ -9,8 +9,8 @@
 // The Hold button under the arrow stops and restarts it by hand; its state
 // lasts the session. Reduced motion turns it off.
 // The die's roll spins it round to a random project (see below).
-// The home page has two of them, Projects and Campaigns, each its own; only
-// the first (Projects) answers the die.
+// The home page has two of them, Projects and Campaigns, each its own; the
+// die spins both.
 (() => {
   for (const cards of document.querySelectorAll<HTMLElement>(".cards")) carousel(cards);
 

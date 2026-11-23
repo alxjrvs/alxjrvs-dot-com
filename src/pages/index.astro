@@ -90,6 +90,7 @@ const ld = {
           <div class="card-body">
             <h3>{c.name}</h3>
             {c.tagline && <p class="summary">{c.tagline}</p>}
+            {c.description && <p class="description">{c.description}</p>}
             <p class="built label">{[c.system, status(c)].filter(Boolean).join(" · ")}</p>
             <p class="card-links">
               <a class="visit" href={c.url}>{campaignsHead.dek ?? "Visit"} <span aria-hidden="true">↗</span></a>
