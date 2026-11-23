@@ -452,6 +452,19 @@ h3 { font-size: clamp(1.75rem, 3.6vw, 2.25rem); line-height: 1.05; letter-spacin
 /* Campaigns (from Kith.town) are the same carousel; their art is a
    painting, not a page, so it's framed on its middle rather than its top. */
 .campaign .shot img { object-position: center; }
+/* a campaign's pitch, under its tagline: a few lines, the rest is on Kith */
+.campaign .description {
+  margin: 0;
+  max-width: 34rem;
+  color: var(--fg-subtle);
+  font-size: .9375rem;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  line-clamp: 4;
+  overflow: hidden;
+}
 /* The projects are a sideways carousel at every width: one project at a
    time, each swipe or arrow press moves exactly one and snaps to it, and it
    loops (see carousel.ts). On wider screens a slide is the screenshot on the
@@ -1013,6 +1026,7 @@ h3 { font-size: clamp(1.75rem, 3.6vw, 2.25rem); line-height: 1.05; letter-spacin
   .hold { top: calc(var(--nudge-y, 40%) + 26px); right: calc(var(--gutter) * -1 + 11px); }
   .shot img { aspect-ratio: 4 / 3; }
   .card .summary { font-size: .9375rem; }
+  .campaign .description { font-size: .875rem; -webkit-line-clamp: 3; line-clamp: 3; }
   .about h2 { margin-bottom: 16px; }
   .bio { font-size: 1rem; line-height: 1.45; }
   .bio p { margin-bottom: 10px; }
@@ -1022,6 +1036,7 @@ h3 { font-size: clamp(1.75rem, 3.6vw, 2.25rem); line-height: 1.05; letter-spacin
   /* a short phone: the card keeps its links and drops the built-with label,
      and About ends on its contact line, without the copyright row */
   .built { display: none; }
+  .campaign .description { -webkit-line-clamp: 2; line-clamp: 2; }
   .about .foot { display: none; }
   .about { padding-bottom: 16px; }
   .bio p { margin-bottom: 8px; }

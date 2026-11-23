@@ -19,7 +19,8 @@
   const dice = Array.from(document.querySelectorAll<HTMLElement>(".die-btn"));
   const subjs = Array.from(document.querySelectorAll<HTMLElement>(".roll-subject"));
   const objs = Array.from(document.querySelectorAll<HTMLElement>(".roll-object"));
-  const cards = document.querySelector<HTMLElement>(".cards");
+  // the carousels: Projects and Campaigns
+  const carousels = Array.from(document.querySelectorAll<HTMLElement>(".cards"));
   const likes = Array.from(document.querySelectorAll<HTMLElement>("#likes .like"));
   const slots = Array.from(document.querySelectorAll<HTMLElement>("#writing .archive > li"));
   const pool = Array.from(
@@ -87,7 +88,7 @@
     ...likes.filter((_, i) => (LIKES[i]?.length ?? 0) > 1),
     ...(pool.length > 1 ? slots : []),
     ...dice,
-    ...(cards && cards.querySelectorAll(".card:not(.copy)").length > 1 ? [cards] : []),
+    ...carousels.filter((c) => c.querySelectorAll(".card:not(.copy)").length > 1),
   ];
   function onScreen(el: Element): boolean {
     if (
@@ -190,19 +191,26 @@
     })();
   }
 
-  // The projects' reel lives with the carousel (carousel.ts): it spins round
-  // fast and lands on a random project, then calls back.
+  // The carousels' reels (Projects, Campaigns) live with them (carousel.ts):
+  // each spins round fast and lands on a random card, then calls back. The
+  // roll finishes once every one has landed.
   function rollCards(finish: () => void) {
-    if (!cards) return finish();
-    let called = false;
-    const done = () => {
-      if (!called) {
-        called = true;
-        finish();
-      }
+    let left = carousels.length + 1;
+    const one = () => {
+      if (--left === 0) finish();
     };
-    // the carousel claims the roll; with nothing to roll (one project) it doesn't
-    if (cards.dispatchEvent(new CustomEvent("roll", { detail: done, cancelable: true }))) done();
+    for (const cards of carousels) {
+      let called = false;
+      const done = () => {
+        if (!called) {
+          called = true;
+          one();
+        }
+      };
+      // a carousel claims the roll; with nothing to roll (one card) it doesn't
+      if (cards.dispatchEvent(new CustomEvent("roll", { detail: done, cancelable: true }))) done();
+    }
+    one();
   }
 
   // Writing's reels. Each line of the list is a slot that flicks through
@@ -440,7 +448,9 @@
   for (const d of dice) {
     d.addEventListener("click", roll);
     // a roll is likely coming: let the carousel fetch the screenshots it'll flick through
-    const warm = () => cards?.dispatchEvent(new Event("rollsoon"));
+    const warm = () => {
+      for (const c of carousels) c.dispatchEvent(new Event("rollsoon"));
+    };
     d.addEventListener("pointerenter", warm);
     d.addEventListener("focus", warm);
   }

@@ -156,11 +156,13 @@ Every text token clears AA (4.5:1). Keep it that way when re-skinning.
   level with the screenshots; there's no back arrow, since it loops and you
   can swipe back.
 - **Campaigns:** between Projects and Writing, the same carousel (its own
-  arrow, Hold and auto-advance; the die rolls only Projects), one card per
+  arrow, Hold and auto-advance; the die spins it with Projects), one card per
   campaign running or signing up on Kith.town. The cards and their data come
   from Kith's public feed (`src/lib/kith.ts`), read when the page renders, so
   they keep themselves up to date. Card: the campaign's art (framed on its
-  middle, not its top), name, tagline, a mono label (the system, then
+  middle, not its top), name, tagline, its description (the pitch from Kith,
+  in `fg-subtle`, cut to four lines, three on phones, two on short phones),
+  a mono label (the system, then
   "Signing up" or "Next game Nov 27"), and one link out to the campaign on
   Kith.town in Kith.town's project accent. Signing up comes first, then
   whatever plays next. The section is left out when its EmDash section
@@ -188,7 +190,7 @@ Every text token clears AA (4.5:1). Keep it that way when re-skinning.
 | Section snap      | Desktop: scrolling is free. Once it has slowed right down, a soft, critically damped spring (stiffness 42, damping 1, so no bounce) picks up from the scroll's own speed and eases to the next section if you moved past 10% of a screen, otherwise back. Touch: the browser's proximity snapping, so a swipe can pass sections and only eases on when it ends near one. Every section's heading is a snap point, the splash and About included. About is exactly as tall as the screen is at that moment (`100dvh`), so its top is also the page's bottom and the phone browser bar can't bounce the page between two nearby resting places. The splash recede updates in the same frame as the scroll, so it never lags a frame behind. |
 | Die roll          | Every die effect is a reel that slows to a stop. The tagline's subject and object, each "I like" slot, and the projects carousel all land one after another. A reel never shows the same word twice in one roll: it runs through a shuffle of the other options (fewer, longer ticks for short lists) before landing. About's "I like" line keeps the height of its tallest possible roll at the current width, so a roll that wraps onto another line (or back) never moves anything in About. The die doesn't spin: its pips flick through random die faces (the die itself stays still), slow down, and land last, back on the favicon's "j". |
 | Grid pulse        | A roll sends a pulse out from the tagline across the splash's dice grid (about 0.8s to the farthest die, whatever the screen). As it passes each die, the die rerolls to a different face; nothing moves or changes size. The dice stay in `pattern`. Only the splash grid; off screen the faces just change. |
-| Carousel spin     | The projects carousel whips round two or three times (three with fewer than four projects) and slows down to land on a different project. It keeps the other reels' rhythm: one card per tick, the gaps growing like the tagline object reel's (15 ticks' worth, base 30ms, curve 1.9, so about 2.3s whatever the number of cards), each tick an eased slide and the last one easing into place. Snapping is off until it lands. The auto-advance waits for it; touching, scrolling or a key on the carousel lands it at once. Off screen it just lands. |
+| Carousel spin     | Each carousel (Projects, then Campaigns, together) whips round two or three times (three with fewer than four projects) and slows down to land on a different project. It keeps the other reels' rhythm: one card per tick, the gaps growing like the tagline object reel's (15 ticks' worth, base 30ms, curve 1.9, so about 2.3s whatever the number of cards), each tick an eased slide and the last one easing into place. Snapping is off until it lands. The auto-advance waits for it; touching, scrolling or a key on the carousel lands it at once. Off screen it just lands. |
 | Back-to-top FAB   | Fades in while scrolling past the first screen. It hides 1.4s after scrolling stops. |
 | Comic FABs        | On a comic on wide screens, the title and page controls at the bottom right. They tuck away (fade and drop 12px, 0.3s) once the mouse has rested 2.4s, and the cursor hides over the page with them. Any mouse move, key, scroll wheel or focus brings them back, and they stay while the pointer is on them. Scrolled so less than 60% of the page shows, they leave altogether. Reduced motion: no fade, they just go. |
 | Phone menu        | On a piece on phones, once the title has docked. Tucks down out of sight while you scroll on down the page, and slides back as soon as you scroll up, near the end, or open it. Its panel rises and grows in from the button (0.22s); the button's four pips turn an eighth, into a diamond, while it's open. Reduced motion: no slides. |
