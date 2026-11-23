@@ -7,12 +7,14 @@
 // The words on each card (names, taglines, systems) are written in Kith's own
 // CMS, the way every other word here is written in EmDash. It's read when the
 // home page renders, so a new campaign or a filled table shows up as soon as
-// the cached page is renewed (astro.config.ts: a minute). If Kith is slow or
-// down, the section is left out rather than the page waiting on it.
+// the cached page is renewed (astro.config.ts: a minute). If Kith is down, or
+// slower than 8 seconds, the section is left out rather than the page
+// waiting on it. The feed takes 1.5 to 3 seconds to build, and a cached page
+// is renewed behind the visitor, so it's the renewal that waits, not them.
 
 export const KITH = "https://kith.town";
 const FEED = `${KITH}/api/hub/campaigns`;
-const TIMEOUT_MS = 2500;
+const TIMEOUT_MS = 8000;
 
 export interface Campaign {
   slug: string;
