@@ -11,7 +11,7 @@ saved for the die: the thing you roll.
 
 ## 1. Principles
 
-1. **Projects first.** Everything else frames the four projects.
+1. **Projects first.** Everything else frames the five projects.
 2. **One loud thing at a time.** `brand` carries the identity. `brand-2` is the
    pop, and it appears in exactly one place: the die. Never use it for text.
 3. **Roles, not colours.** Components use role tokens (`--tag-subject`,

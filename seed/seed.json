@@ -210,6 +210,22 @@
   "content": {
     "projects": [
       {
+        "id": "project-kith",
+        "slug": "kith",
+        "status": "published",
+        "data": {
+          "order": 5,
+          "title": "Kith.town",
+          "summary": "A home for an invite-only community of tabletop gamers: the campaigns running, the next game day, and who is sitting at each table.",
+          "link": "https://kith.town",
+          "link_label": "kith.town",
+          "shot": "kith",
+          "kicker": "TTRPG \u00b7 game nights",
+          "accent": "#b4501c",
+          "accent_dark": "#ff8a4c"
+        }
+      },
+      {
         "id": "project-vellum",
         "slug": "vellum",
         "status": "published",
