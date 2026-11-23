@@ -11,7 +11,8 @@ saved for the die: the thing you roll.
 
 ## 1. Principles
 
-1. **Projects first.** Everything else frames the five projects.
+1. **Projects first.** Everything else frames the five projects (and the
+   campaigns running on one of them, Kith.town).
 2. **One loud thing at a time.** `brand` carries the identity. `brand-2` is the
    pop, and it appears in exactly one place: the die. Never use it for text.
 3. **Roles, not colours.** Components use role tokens (`--tag-subject`,
@@ -154,6 +155,16 @@ Every text token clears AA (4.5:1). Keep it that way when re-skinning.
   border, `fg-subtle` chevron, 70% opacity) sits in the right-hand margin,
   level with the screenshots; there's no back arrow, since it loops and you
   can swipe back.
+- **Campaigns:** between Projects and Writing, the same carousel (its own
+  arrow, Hold and auto-advance; the die rolls only Projects), one card per
+  campaign running or signing up on Kith.town. The cards and their data come
+  from Kith's public feed (`src/lib/kith.ts`), read when the page renders, so
+  they keep themselves up to date. Card: the campaign's art (framed on its
+  middle, not its top), name, tagline, a mono label (the system, then
+  "Signing up" or "Next game Nov 27"), and one link out to the campaign on
+  Kith.town in Kith.town's project accent. Signing up comes first, then
+  whatever plays next. The section is left out when its EmDash section
+  (`campaigns`) is missing or Kith has nothing to show.
 - **Reading width:** `40rem` for prose, `45rem` for the bio.
 
 ---
@@ -224,6 +235,8 @@ animations, the pip flicker, the carousel spin and the grid pulse (the grid's fa
   2px `nav-active` underline draws in from the left (0.3s). The current section
   is the last one whose top has passed 40% of the screen. On the splash, no
   link is current.
+  Campaigns' link goes out to kith.town but still marks its section; under
+  370px wide there's no room for four links, so it steps out of the header.
 - **Header:** floating glass bar with the wordmark, the tagline copy, nav and
   the die. On the home page it's hidden until the splash
   recedes into it.

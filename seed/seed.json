@@ -301,6 +301,12 @@
         }
       },
       {
+        "id": "section-campaigns",
+        "slug": "campaigns",
+        "status": "published",
+        "data": { "title": "Campaigns", "nav_label": "Campaigns", "dek": "On Kith.town" }
+      },
+      {
         "id": "section-writing",
         "slug": "writing",
         "status": "published",

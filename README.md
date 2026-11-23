@@ -106,6 +106,7 @@ There are two copies of the database to go back to.
 | `astro.config.ts`            | Astro + the Cloudflare adapter, EmDash (D1, R2, Access), route caching |
 | `seed/seed.json`             | EmDash's content model and the site's starting text |
 | `src/lib/content.ts`         | Every read from EmDash: posts, projects, sections, randomizers, site settings |
+| `src/lib/kith.ts`            | The Campaigns section's data: Kith.town's public campaigns feed, over the `KITH` service binding |
 | `src/site.ts`                | Settings that aren't copy: URL, time zone, social card, the Web Analytics token |
 | `src/pages/index.astro`      | The whole home page |
 | `src/pages/writing/`         | The archive at `/writing/`, grouped by year, one page per post, one per tag (`tags/`), and the threads (`threads/`: an index and one page per thread) |
@@ -121,7 +122,7 @@ There are two copies of the database to go back to.
 | `public/_headers`, `_redirects` | Cloudflare response headers and path redirects |
 | `public/favicon.ico`, `apple-touch-icon.png` | The icons asked for by name, made from `assets/favicon.svg` by `bun run icons` |
 | `AGENTS.md`                  | Rules for coding agents, and the list of ideas already turned down |
-| `wrangler.jsonc`             | The Worker: route, assets, D1/R2/KV bindings, cron |
+| `wrangler.jsonc`             | The Worker: route, assets, D1/R2/KV bindings, the Kith service binding, cron |
 
 ## Editing the site
 

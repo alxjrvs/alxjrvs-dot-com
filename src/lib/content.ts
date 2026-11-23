@@ -13,6 +13,7 @@ import {
   type ImageValue,
 } from "emdash";
 import { site } from "../site";
+import { KITH } from "./kith";
 
 /** The bit of Astro / APIContext these need. */
 export interface AstroLike {
@@ -134,7 +135,7 @@ async function sections(astro: AstroLike): Promise<Map<string, Section>> {
   );
 }
 
-/** One section by slug (about, projects, writing, writing-archive, threads-archive, not-found). */
+/** One section by slug (about, projects, campaigns, writing, writing-archive, threads-archive, not-found). */
 export async function getSection(astro: AstroLike, slug: string): Promise<Section | undefined> {
   return (await sections(astro)).get(slug);
 }
@@ -457,12 +458,15 @@ export async function getPlaces(astro: AstroLike): Promise<Map<string, Place>> {
 }
 
 /** The header nav: every section with a nav label, Writing only once there's a post. */
-export async function getNav(astro: AstroLike): Promise<{ name: string; url: string }[]> {
+export async function getNav(
+  astro: AstroLike,
+): Promise<{ name: string; url: string; section: string }[]> {
   const [all, posts] = await Promise.all([sections(astro), getPosts(astro)]);
-  return ["projects", "writing", "about"].flatMap((slug) => {
+  return ["projects", "campaigns", "writing", "about"].flatMap((slug) => {
     const label = all.get(slug)?.navLabel;
     if (!label || (slug === "writing" && posts.length === 0)) return [];
-    return [{ name: label, url: `/#${slug}` }];
+    // Campaigns run on Kith.town, so its link goes there.
+    return [{ name: label, url: slug === "campaigns" ? KITH : `/#${slug}`, section: slug }];
   });
 }
 
